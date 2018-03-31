@@ -30,5 +30,3 @@ if __name__ == '__main__':
     arr2 = arr1.T
     print(arr1)
     print(arr2)
-    
-    # https://oguemon.com/study/linear-algebra/matrix-op/
