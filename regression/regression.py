@@ -3,7 +3,7 @@
 from sklearn.model_selection import train_test_split
 
 import statsmodels.api as sm
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 import pandas as pd
 
