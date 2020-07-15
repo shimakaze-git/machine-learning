@@ -10,6 +10,9 @@ scikit-learn = "*"
 statsmodels = "*"
 numpy = "*"
 pandas = "*"
+pipenv = "*"
+install = "*"
+matplotlib = "*"
 
 [requires]
 python_version = "3.8"

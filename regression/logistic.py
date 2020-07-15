@@ -1,65 +1,58 @@
-import sklearn.datasets as datasets
-# from sklearn.linear_model import LogisticRegression
-import statsmodels.api as sm
-# import statsmodels.formula.api as sm
-
+import math
 import pandas as pd
 
-
-# データーセットからアイリスのデーターセットを読み込む
-def iris_datasets():
-    iris = datasets.load_iris()
-
-    data_list = []
-    target_list = []
-
-    for data, target in zip(iris.data, iris.target):
-        if target in [0, 1]:
-            data_list.append(list(data))
-            target_list.append(target)
-    return data_list, target_list
-
-# # 構造を確認
-# print(iris.feature_names)
-
-# # 特徴料
-# # sepal length (cm), ガクの長さ[cm]
-# # sepal width (cm), ガクの幅[cm]
-# # petal length (cm) 花弁の長さ[cm]
-# # petal width (cm) 花弁の幅[cm]
-# print(iris.feature_names)
-
-# # ラベル
-# # setosa
-# # versicolor
-# # virginica
-# print(iris.target_names)
-
-# # 特徴量をまとめたデーターを表示する
-# print(iris.data)
-
-# 正解ラベルを表示
-# print(iris.target)
-# print(iris.data)
-
-
-X, y = iris_datasets()
-print(X, y)
-
-X = pd.DataFrame(X)
-y = pd.DataFrame(y)
-
-print(X)
 # ロジスティック回帰分析
-# model = LogisticRegression()
-# result = model.fit(X, y)
-# print(result)
-# print(result.summary())
+from sklearn.linear_model import LogisticRegression
+import statsmodels.api as sm
 
-# sm.add_constant(X))
+import matplotlib.pyplot as plt
+
+
+def logistic(ax):
+    ans = 1 / (1 + math.e**-ax)
+    return ans
+
+
+# CSV読み込み
+df = pd.read_csv("user_data.csv")
+
+# 目的変数名の指定
+y_name = "ユーザ登録"
+
+# 従属変数（使用列）の選択
+X_name = ["性別", "学生", "滞在時間"]
+X_name = ["学生", "滞在時間"]
+
+# Xとyに分離
+X = df[X_name]
+y = df[y_name]
+
 model = sm.Logit(y, sm.add_constant(X))
-r = model.fit(disp=0)
+result = model.fit(disp=0)
+print(result.summary())
 
-# print(r)
-# print('Parameters: ', logit_res.params)
-# print logit_res.summary()
+# sklearnの方も使用
+lr = LogisticRegression()
+lr.fit(X, y)
+
+print("coefficient = ", lr.coef_)  # 係数
+print("intercept = ", lr.intercept_)  # 切片
+
+# CSV読み込み
+df_test = pd.read_csv("user_data_future.csv")
+y_result = []
+
+for i in range(len(df_test.index)):
+    y_tmp = result.params.const
+    for j in range(len(X_name)):
+        x_name = X_name[j]
+        y_tmp += result.params[x_name] * df_test[x_name][i]
+
+    y_result.append(logistic(y_tmp))
+
+print(y_result)
+
+
+# plt.plot(X, y, 'o')
+# plt.plot(X, result.params.const+result.params[X_name]*X)
+plt.show()
