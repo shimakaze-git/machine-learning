@@ -36,5 +36,6 @@ $ python
 
 # Links
 
+- [Python による回帰分析と結果の可視化](https://analysis-navi.com/?p=1495)
 - [Python によるロジスティック回帰分析](https://analysis-navi.com/?p=1229)
 - [Python による重回帰分析](https://analysis-navi.com/?p=1930)
